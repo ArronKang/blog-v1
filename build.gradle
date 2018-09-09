@@ -1,0 +1,32 @@
+buildscript {
+	ext {
+		springBootVersion = '2.0.4.RELEASE'
+	}
+	repositories {
+		maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+		maven{ url 'http://maven.aliyun.com/nexus/content/repositories/jcenter'}
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.kang.core.blog'
+version = '1.0.0'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-web')
+	// 添加 Apache Commons Lang 依赖
+	compile('org.apache.commons:commons-lang3:3.5')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
