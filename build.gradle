@@ -1,11 +1,8 @@
 // buildscript 代码块中脚本优先执行
 buildscript {
-
-	// ext 用于定义动态属性
 	ext {
 		springBootVersion = '2.0.5.RELEASE'
 	}
-<<<<<<< HEAD
 	// 自定义 Thymeleaf 和 Thymeleaf Layout Dialect 的版本
 	ext['thymeleaf.version'] = '3.0.9.RELEASE'
 	ext['thymeleaf-layout-dialect.version'] = '2.3.0'
@@ -14,32 +11,19 @@ buildscript {
 
 	// 使用了 Maven 的中央仓库（你也可以指定其他仓库）
 	repositories {
-=======
-
-	// 自定义 Thymeleaf 和 Thymeleaf Layout Dialect 的版本
-	ext['thymeleaf.version'] = '3.0.3.RELEASE'
-	ext['thymeleaf-layout-dialect.version'] = '2.2.0'
-
-	// 使用了 Maven 的中央仓库（你也可以指定其他仓库）
-	repositories {
-		//mavenCentral()
->>>>>>> 1232bfdc50c0b58710ea4f9ba0dca35b3d93f3fd
 		maven {
 			url 'http://maven.aliyun.com/nexus/content/groups/public/'
 		}
 	}
-
-	// 依赖关系
 	dependencies {
-		// classpath 声明说明了在执行其余的脚本时，ClassLoader 可以使用这些依赖项
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 	}
 }
 
 // 使用插件
 apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 
 // 指定了生成的打包的版本号
 version = '1.0.0'
@@ -49,10 +33,6 @@ sourceCompatibility = 1.8
 
 // 默认使用了 Maven 的中央仓库。这里改用自定义的镜像库
 repositories {
-<<<<<<< HEAD
-=======
-	//mavenCentral()
->>>>>>> 1232bfdc50c0b58710ea4f9ba0dca35b3d93f3fd
 	maven {
 		url 'http://maven.aliyun.com/nexus/content/groups/public/'
 	}
@@ -60,26 +40,20 @@ repositories {
 
 // 依赖关系
 dependencies {
-<<<<<<< HEAD
 
 
 
-=======
->>>>>>> 1232bfdc50c0b58710ea4f9ba0dca35b3d93f3fd
 	// 该依赖对于编译发行是必须的
 	compile('org.springframework.boot:spring-boot-starter-web')
 
 	// 添加 Thymeleaf 的依赖
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
-<<<<<<< HEAD
-    //  spring-data-jpa
+	//  spring-data-jpa
 	compile("org.springframework.boot:spring-boot-starter-data-jpa")
 	compile("com.h2database:h2")
 
 	// 添加 MySQL连接驱动 的依赖
 	compile('mysql:mysql-connector-java:6.0.5')
-=======
->>>>>>> 1232bfdc50c0b58710ea4f9ba0dca35b3d93f3fd
 
 	// 该依赖对于编译测试是必须的，默认包含编译产品依赖和编译时依
 	testCompile('org.springframework.boot:spring-boot-starter-test')
