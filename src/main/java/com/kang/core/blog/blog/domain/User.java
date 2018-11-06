@@ -1,15 +1,22 @@
 package com.kang.core.blog.blog.domain;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * User 实体.
  */
 @Entity
-public class User {
+public class User implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -38,10 +45,29 @@ public class User {
 
 	@Column(length = 200)
 	private String avatar;
+
+
+
+
+	@ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+	@JoinTable(name = "user_authority", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+			inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
+	private List<Authority> authorities;
 	
 	protected User() { // 无参构造函数
 	}
-	
+
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		//  需将 List<Authority> 转成 List<SimpleGrantedAuthority>，否则前端拿不到角色列表名称
+		List<SimpleGrantedAuthority> simpleAuthorities = new ArrayList<>();
+		for(GrantedAuthority authority : this.authorities){
+			simpleAuthorities.add(new SimpleGrantedAuthority(authority.getAuthority()));
+		}
+		return simpleAuthorities;
+	}
+
 	public User(Long id, String name, String email,String avatar) {
 		this.id = id;
 		this.name = name;
@@ -73,10 +99,34 @@ public class User {
 		return username;
 	}
 
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
+
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
+
+	public void setAuthorities(List<Authority> authorities) {
+		this.authorities = authorities;
+	}
 	public String getPassword() {
 		return password;
 	}

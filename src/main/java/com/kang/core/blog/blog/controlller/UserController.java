@@ -1,6 +1,8 @@
 package com.kang.core.blog.blog.controlller;
 
+import com.kang.core.blog.blog.domain.Authority;
 import com.kang.core.blog.blog.domain.User;
+import com.kang.core.blog.blog.service.AuthorityService;
 import com.kang.core.blog.blog.service.UserService;
 import com.kang.core.blog.blog.util.ConstraintViolationExceptionHandler;
 import com.kang.core.blog.blog.vo.Response;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.ConstraintViolationException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +28,8 @@ import java.util.List;
 public class UserController {
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private AuthorityService authorityService;
 	
 	/**
 	 * 查询所有用户
@@ -51,7 +56,10 @@ public class UserController {
 	 * @return
 	 */
 	@PostMapping
-	public ResponseEntity<Response> saveOrUpateUser(User user) {
+	public ResponseEntity<Response> saveOrUpateUser(User user,Long authorityId) {
+		List<Authority> authorities =new ArrayList<>();
+		authorities.add(authorityService.getAuthorityById(authorityId));
+		user.setAuthorities(authorities);
 
 		try {
 			userService.saveOrUpateUser(user);
