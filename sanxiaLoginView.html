@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta name="renderer" content="webkit">
+</head>
+<body>
+<div class="box" id="login">
+    <form method="post" id="fm1" th:object="${credential}" action="login">
+        <input type="hidden" name="execution" th:value="${flowExecutionKey}"/>
+        <input type="hidden" name="_eventId" value="submit"/>
+        <input class="required"
+               id="username"
+               name="username"
+               th:value="*{username}"
+               type="hidden"/>
+        <input class="required"
+               id="password"
+               name="password"
+               th:value="*{password}"
+               type="hidden"/>
+    </form>
+
+    <script type="text/javascript" >
+        document.getElementById("fm1").submit();
+    </script>
+</div>
+</body>
+</html>
