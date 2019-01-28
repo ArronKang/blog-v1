@@ -1,6 +1,8 @@
 /*!
  * Bolg main JS.
- *
+ * 
+ * @since: 1.0.0 2017/3/9
+ * @author Way Lau <https://waylau.com>
  */
 "use strict";
 //# sourceURL=main.js
@@ -23,7 +25,6 @@ $(function() {
                  "name":$("#searchName").val()
              },
              success: function(data){
-                console.log("异步刷新页面",data)
                  $("#mainContainer").html(data);
              },
              error : function() {
@@ -95,9 +96,16 @@ $(function() {
     // 删除用户
     $("#rightContainer").on("click",".blog-delete-user", function () { 
 
+    	// 获取 CSRF Token 
+        var csrfToken = $("meta[name='_csrf']").attr("content");
+        var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+        
         $.ajax({ 
              url: "/users/" + $(this).attr("userId") , 
              type: 'DELETE', 
+             beforeSend: function(request) {
+                 request.setRequestHeader(csrfHeader, csrfToken); // 添加  CSRF Token 
+             },
              success: function(data){
                  if (data.success) {
                      // 从新刷新主界面

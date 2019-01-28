@@ -1,5 +1,8 @@
 /*!
 * Override Bootstrap style.
+*
+* @since: 1.0.0
+* @author Way Lau <https://waylau.com>
 */
 
 .badge {
@@ -8,4 +11,10 @@
 
 .hidden { 
 	display: none !important; 
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #0275d8;
+    border-color: #0275d8;
 }

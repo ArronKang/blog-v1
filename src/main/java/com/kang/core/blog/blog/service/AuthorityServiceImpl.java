@@ -1,7 +1,7 @@
 package com.kang.core.blog.blog.service;
 
 import com.kang.core.blog.blog.domain.Authority;
-import com.kang.core.blog.blog.domain.AuthorityRepository;
+import com.kang.core.blog.blog.repository.AuthorityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

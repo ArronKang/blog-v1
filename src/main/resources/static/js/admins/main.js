@@ -1,4 +1,6 @@
 /**
+ * Bolg main JS.
+ * Created by waylau.com on 2017/3/9.
  */
 "use strict";
 //# sourceURL=main.js
@@ -10,7 +12,7 @@ $(function() {
     $(".blog-menu .list-group-item").click(function() {
 
         var url = $(this).attr("url");
-        console.log(url);
+
         // 先移除其他的点击样式，再添加当前的点击样式
         $(".blog-menu .list-group-item").removeClass("active");
         $(this).addClass("active");  
