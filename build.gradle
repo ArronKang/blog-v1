@@ -7,7 +7,7 @@ buildscript {
 	ext['thymeleaf.version'] = '3.0.9.RELEASE'
 	ext['thymeleaf-layout-dialect.version'] = '2.3.0'
 	// 自定义  Hibernate 的版本
-	ext['hibernate.version'] = '5.2.8.Final'
+	ext['hibernate.version'] = '5.4.1.Final'
 
 	// 使用了 Maven 的中央仓库（你也可以指定其他仓库）
 	repositories {
