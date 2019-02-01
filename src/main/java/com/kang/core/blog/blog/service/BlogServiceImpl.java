@@ -3,6 +3,7 @@ package com.kang.core.blog.blog.service;
 import com.kang.core.blog.blog.domain.Blog;
 import com.kang.core.blog.blog.domain.Comment;
 import com.kang.core.blog.blog.domain.User;
+import com.kang.core.blog.blog.domain.Vote;
 import com.kang.core.blog.blog.repository.BlogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -66,5 +67,23 @@ public class BlogServiceImpl implements BlogService {
         Comment comment = new Comment(user, commentContent);
         originalBlog.addComment(comment);
         return this.saveBlog(originalBlog);
+    }
+    @Override
+    public Blog createVote(Long blogId) {
+        Blog originalBlog = blogRepository.getOne(blogId);
+        User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Vote vote = new Vote(user);
+        boolean isExist = originalBlog.addVote(vote);
+        if (isExist) {
+            throw new IllegalArgumentException("该用户已经点过赞了");
+        }
+        return this.saveBlog(originalBlog);
+    }
+
+    @Override
+    public void removeVote(Long blogId, Long voteId) {
+        Blog originalBlog = blogRepository.getOne(blogId);
+        originalBlog.removeVote(voteId);
+        this.saveBlog(originalBlog);
     }
 }

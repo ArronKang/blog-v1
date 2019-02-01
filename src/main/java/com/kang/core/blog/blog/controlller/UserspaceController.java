@@ -2,6 +2,7 @@ package com.kang.core.blog.blog.controlller;
 
 import com.kang.core.blog.blog.domain.Blog;
 import com.kang.core.blog.blog.domain.User;
+import com.kang.core.blog.blog.domain.Vote;
 import com.kang.core.blog.blog.service.BlogService;
 import com.kang.core.blog.blog.service.UserService;
 import com.kang.core.blog.blog.util.ConstraintViolationExceptionHandler;
@@ -143,7 +144,18 @@ public class UserspaceController {
 				isBlogOwner = true;
 			}
 		}
+		// 判断操作用户的点赞情况
+		List<Vote> votes = blog.getVotes();
+		Vote currentVote = null; // 当前用户的点赞情况
 
+		if (principal !=null) {
+			for (Vote vote : votes) {
+				vote.getUser().getUsername().equals(principal.getUsername());
+				currentVote = vote;
+				break;
+			}
+		}
+		model.addAttribute("currentVote",currentVote);
 		model.addAttribute("isBlogOwner", isBlogOwner);
 		model.addAttribute("blogModel",blog);
 
