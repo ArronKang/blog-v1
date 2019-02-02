@@ -1,9 +1,11 @@
 package com.kang.core.blog.blog.controlller;
 
 import com.kang.core.blog.blog.domain.Blog;
+import com.kang.core.blog.blog.domain.Catalog;
 import com.kang.core.blog.blog.domain.User;
 import com.kang.core.blog.blog.domain.Vote;
 import com.kang.core.blog.blog.service.BlogService;
+import com.kang.core.blog.blog.service.CatalogService;
 import com.kang.core.blog.blog.service.UserService;
 import com.kang.core.blog.blog.util.ConstraintViolationExceptionHandler;
 import com.kang.core.blog.blog.vo.Response;
@@ -42,6 +44,9 @@ public class UserspaceController {
 
 	@Value("${file.server.url}")
 	private String fileServerUrl;
+
+	@Autowired
+	private CatalogService catalogService;
 
 
 
@@ -84,13 +89,16 @@ public class UserspaceController {
 		Page<Blog> page = null;
 
 		if (catalogId != null && catalogId > 0) { // 分类查询
-			// TODO
+			Catalog catalog = catalogService.getCatalogById(catalogId);
+			Pageable pageable = PageRequest.of(pageIndex, pageSize);
+			page = blogService.listBlogsByCatalog(catalog, pageable);
+			order = "";
 		} else if (order.equals("hot")) { // 最热查询
 			Sort sort = new Sort(Sort.Direction.DESC,"readSize","commentSize","voteSize");
-			Pageable pageable = new PageRequest(pageIndex, pageSize, sort);
+			Pageable pageable =PageRequest.of(pageIndex, pageSize, sort);
 			page = blogService.listBlogsByTitleVoteAndSort(user, keyword, pageable);
 		} else if (order.equals("new")) { // 最新查询
-			Pageable pageable = new PageRequest(pageIndex, pageSize);
+			Pageable pageable = PageRequest.of(pageIndex, pageSize);
 			page = blogService.listBlogsByTitleVote(user, keyword, pageable);
 		}
 
@@ -171,6 +179,11 @@ public class UserspaceController {
 	 */
 	@GetMapping("/{username}/blogs/edit")
 	public ModelAndView createBlog(@PathVariable("username") String username, Model model) {
+		// 获取用户分类列表
+		User user = (User)userDetailsService.loadUserByUsername(username);
+		List<Catalog> catalogs = catalogService.listCatalogs(user);
+
+		model.addAttribute("catalogs", catalogs);
 		model.addAttribute("blog", new Blog(null, null, null));
 		model.addAttribute("fileServerUrl", fileServerUrl);// 文件服务器的地址返回给客户端
 		return new ModelAndView("/userspace/blogedit", "blogModel", model);
@@ -205,6 +218,7 @@ public class UserspaceController {
 		} catch (ConstraintViolationException e)  {
 			return ResponseEntity.ok().body(new Response(false, ConstraintViolationExceptionHandler.getMessage(e)));
 		} catch (Exception e) {
+			e.printStackTrace();
 			return ResponseEntity.ok().body(new Response(false, e.getMessage()));
 		}
 

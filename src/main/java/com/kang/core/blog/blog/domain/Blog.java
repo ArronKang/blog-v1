@@ -89,6 +89,10 @@ public class Blog implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "comment_id", referencedColumnName = "id"))
     private List<Comment> comments;
 
+    @OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
+    @JoinColumn(name="catalog_id")
+    private Catalog catalog;
+
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -190,6 +194,15 @@ public class Blog implements Serializable {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
+
+    public Catalog getCatalog() {
+        return catalog;
+    }
+
+    public void setCatalog(Catalog catalog) {
+        this.catalog = catalog;
+    }
+
     /**
      * 添加评论
      * @param comment
