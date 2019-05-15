@@ -43,14 +43,14 @@
     <link href="../../css/blog.css" th:href="@{/css/blog.css}" rel="stylesheet">
 </head>
 <body>
-<nav class="navbar navbar-inverse bg-inverse navbar-toggleable-md" style="background-color: #2317def2!important">
+<nav class="navbar navbar-inverse bg-danger navbar-toggleable-xl">
     <div class="container">
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                 data-target="#navbarsContainer" aria-controls="navbarsExampleContainer" aria-expanded="false"
                 aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <img src="/images/logo/2.png" style="height:50px">
+        <img src="/images/logo/2.png" style="height:30px">
 
         <div class="collapse navbar-collapse" id="navbarsContainer">
 
@@ -62,9 +62,8 @@
                     <a class="nav-link" href="/blogs?order=hot">最热</a>
                 </li>
                 <form class="form-inline mt-2 mt-md-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="搜索">
-                    <a href="/blogs?keyword=ww" class="btn btn-outline-secondary my-2 my-sm-0"><i class="fa fa-search"
-                                                                                                                                        aria-hidden="true"></i></a>
+                    <input class="form-control mr-sm-2" style="height: 30px;font-size: 13px" type="text" placeholder="搜索">
+                    <a href="/blogs?keyword=ww">搜索</a>
                 </form>
 
             </ul>
@@ -87,8 +86,8 @@
 			</div>
 			
 			<div sec:authorize="isAnonymous()">
-			    <a href="/login" class="btn btn-outline-success my-2 my-sm-0" type="submit">登录</a>
-			    <a href="/register" class="btn btn-outline-success my-2 my-sm-0" type="submit">注册</a>
+			    <a href="/login" class="btn btn-outline-success" style="font-size: 13px" type="submit">登录</a>
+			    <a href="/register" class="btn btn-outline-success" style="font-size: 13px" type="submit">注册</a>
 			</div>
         </div>
 
